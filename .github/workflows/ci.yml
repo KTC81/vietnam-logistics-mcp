@@ -1,0 +1,54 @@
+# CI cho Vietnam Logistics MCP: chạy typecheck, build, lint, format, test.
+# Không cần secret: test dùng mock, không gọi GHN thật (test tích hợp staging chạy tay).
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+# Chỉ cần quyền đọc mã nguồn.
+permissions:
+  contents: read
+
+# Có commit mới trên cùng nhánh/PR thì hủy lượt chạy cũ.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  kiem-tra:
+    name: Kiểm tra (Node 22)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - uses: actions/checkout@v4
+
+      # Công cụ dev cần Node >= 22.12 (B10). Người dùng cuối chỉ cần Node >= 18.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: src/package-lock.json
+
+      - name: Cài thư viện
+        run: npm ci
+
+      - name: Kiểm tra kiểu (typecheck)
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Kiểm tra định dạng (Prettier)
+        run: npm run format:check
+
+      - name: Test
+        run: npm test

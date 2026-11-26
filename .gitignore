@@ -1,0 +1,22 @@
+# Bí mật: không bao giờ commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Sản phẩm build và phụ thuộc
+node_modules/
+dist/
+build/
+coverage/
+.vitest/
+*.tgz
+
+# Rác thường gặp
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vs/

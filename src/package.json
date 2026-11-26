@@ -1,0 +1,70 @@
+{
+  "name": "vietnam-logistics-mcp",
+  "version": "1.1.0",
+  "description": "MCP server for Vietnam logistics: look up Giao Hang Nhanh (GHN) orders, shops and shipping fees from AI assistants such as Claude Desktop.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "vietnam-logistics-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ghn",
+    "giaohangnhanh",
+    "vietnam",
+    "logistics",
+    "shipping",
+    "claude",
+    "ai"
+  ],
+  "author": "KTC81",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ktc81/vietnam-logistics-mcp.git"
+  },
+  "homepage": "https://github.com/ktc81/vietnam-logistics-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/ktc81/vietnam-logistics-mcp/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "perf": "npm run build && node scripts/do-hieu-nang.mjs",
+    "quet-bi-mat": "node scripts/quet-bi-mat.mjs",
+    "prepack": "npm run build && node scripts/chuan-bi-goi.mjs chuan-bi",
+    "postpack": "node scripts/chuan-bi-goi.mjs don-dep",
+    "prepublishOnly": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run quet-bi-mat",
+    "kiem-tra-goi": "node scripts/kiem-tra-goi.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^3.25.76",
+    "zod-to-json-schema": "^3.25.2"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "eslint": "^10.15.0",
+    "prettier": "^3.10.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^5.1.0"
+  }
+}

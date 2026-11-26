@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+.vitest/
+.env
+.env.*
+!.env.example
+tests/security/.tmp-*/
+tests/package/.tmp-*/
+tests/scripts/.tmp-*/
+# Bản sao do prepack tạo từ gốc repo (nguồn thật ở ../), và tarball npm pack
+/README.md
+/LICENSE
+*.tgz
