@@ -121,6 +121,16 @@ Lỗi tạm thời của GHN (máy chủ bận, quá thời gian) được thử
 - **Đầu vào được kiểm tra chặt** (khóa lạ, chuỗi quá dài, số bất thường bị từ chối trước khi gọi GHN). Lỗi trả về không lộ chi tiết hệ thống hay thông báo thô của GHN.
 - Repo có bộ test bảo mật và công cụ quét bí mật (`npm run quet-bi-mat`).
 
+### Cảnh báo: khi nhờ AI gỡ lỗi
+
+Các biện pháp trên chỉ áp dụng cho những gì đi qua server này. Nếu AI **đọc được file hoặc chạy được lệnh** trên máy bạn (ví dụ trợ lý lập trình như Claude Code, Cursor), nó có thể đọc token hoặc gọi thẳng GHN và nhận dữ liệu gốc có tên, số điện thoại, địa chỉ khách. Server không ngăn được việc này.
+
+- **Không cho AI đọc** file cấu hình có `GHN_TOKEN` (`claude_desktop_config.json`, `.env`...). Không dán token vào chat.
+- **Không cho AI gọi thẳng GHN** bằng token thật (curl, script...), kể cả để "kiểm tra thử".
+- **Chỉ gửi cho AI** hoặc người hỗ trợ: câu thông báo lỗi, mã lỗi, mã yêu cầu (`requestId`), tên tool và thời điểm lỗi.
+- **Xem lại trước khi gửi** log của ứng dụng AI, ảnh chụp màn hình: log này không do server quản lý và có thể chứa nội dung trao đổi. Che token và thông tin khách.
+- **Nếu token đã lộ:** lấy token mới tại [khachhang.ghn.vn](https://khachhang.ghn.vn), cập nhật cấu hình và bảo đảm token cũ không còn dùng được (hỏi GHN nếu không chắc).
+
 ## Hỗ trợ ứng dụng AI
 
 | Ứng dụng | Tình trạng |
@@ -247,6 +257,16 @@ Then use `"command": "node"` and `"args": ["/path/to/vietnam-logistics-mcp/src/d
 - **No sensitive logging:** logs contain tool name, error code, timing, HTTP status and request ID only.
 - **Strict input validation** (unknown keys, oversized strings and odd numbers are rejected before any GHN call). Errors never expose stack traces or raw GHN messages.
 - The repository ships a security test suite and a secret scanner (`npm run quet-bi-mat`).
+
+### Warning: asking an AI to debug
+
+The protections above only cover what goes through this server. An AI that **can read files or run commands** on your machine (for example a coding assistant such as Claude Code or Cursor) could read your token, or call GHN directly and receive raw data containing customer names, phone numbers and addresses. The server cannot prevent this.
+
+- **Do not let the AI read** configuration files that hold `GHN_TOKEN` (`claude_desktop_config.json`, `.env`, ...). Do not paste the token into a chat.
+- **Do not let the AI call GHN directly** with your real token (curl, scripts, ...), not even "just to test".
+- **Share only** the error message, error code, request ID (`requestId`), tool name and time of the failure with the AI or a support person.
+- **Review before sharing** AI app logs and screenshots: the server does not control those logs and they may contain conversation content. Mask tokens and customer data.
+- **If your token leaked:** get a new one at [khachhang.ghn.vn](https://khachhang.ghn.vn), update your configuration and make sure the old token no longer works (ask GHN if unsure).
 
 ## Supported AI apps
 
